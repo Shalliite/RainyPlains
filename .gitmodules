@@ -1,0 +1,6 @@
+[submodule "RPEngine/external/ImGui"]
+	path = RPEngine/external/ImGui
+	url = https://github.com/Shalliite/imgui.git
+[submodule "RPEngine/external/GLFW"]
+	path = RPEngine/external/GLFW
+	url = https://github.com/Shalliite/glfw.git
