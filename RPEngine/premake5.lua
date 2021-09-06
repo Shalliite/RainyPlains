@@ -2,4 +2,5 @@
 project "RPEngine"
     kind "SharedLib"
 
-    links { "GLFW", "ImGui", "opengl32.lib", "user32.lib" }
+    files { "**.cpp", "**.hpp", "**.c", "**.h" }
+    links { "opengl32.lib", "user32.lib", "d3d11.lib" }

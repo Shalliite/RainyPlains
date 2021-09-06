@@ -11,7 +11,7 @@ workspace "RainyPlains"
     objdir ("%{wks.location}/obj/%{prj.name}")
     flags { "MultiProcessorCompile" }
 
-    defines { "UNICODE", "_UNICODE", "_CRT_SECURE_NOT_WARNINGS" }
+    defines { "UNICODE", "_UNICODE", "_CRT_SECURE_NO_WARNINGS" }
     
     filter "configurations:Debug"
     defines { "DEBUG", "_DEBUG" }
@@ -21,8 +21,7 @@ workspace "RainyPlains"
 
     filter "kind:SharedLib"
     defines { "WINDLL", "_WINDLL" }
+    filter {}
 
-    include "RPEngine"
-    include "RPEngine/external/GLFW"
-    include "RPEngine/external/ImGui"
     include "RainyPlains"
+    include "RPEngine"

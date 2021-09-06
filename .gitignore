@@ -1,8 +1,8 @@
 
 *.sln
 *.vcxproj
-*.user
-*.filters
+*.vcxproj.user
+*.vcxproj.filters
 
 .vs/
 bin/
