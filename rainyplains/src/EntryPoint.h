@@ -1,16 +1,9 @@
 #pragma once
 #include "application.h"
 
-#define rpImplementApp(x) rpe::Application* CreateApp() { return new x; }
-
-namespace rpe
-{
-	extern rpe::Application* CreateApp();
-}
-
 void Program()
 {
-	rpe::Application* app = rpe::CreateApp();
+	rpe::Application* app = new rpe::Application;
 	app->Run();
 	delete app;
 	app = nullptr;

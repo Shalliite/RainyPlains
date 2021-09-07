@@ -1,6 +1,6 @@
 #include "d3d11renderer.h"
 
-rpe::D3D11Renderer::D3D11Renderer(w32_window* window) : m_device(nullptr), m_swapChain(nullptr), m_context(nullptr)
+rpe::D3D11Renderer::D3D11Renderer(Window* window) : m_device(nullptr), m_swapChain(nullptr), m_context(nullptr)
 {
 	DXGI_SWAP_CHAIN_DESC sd = { };
 	sd.BufferDesc.Width = 0;
@@ -14,7 +14,7 @@ rpe::D3D11Renderer::D3D11Renderer(w32_window* window) : m_device(nullptr), m_swa
 	sd.SampleDesc.Quality = 0;
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	sd.BufferCount = 1;
-	sd.OutputWindow = window->m_wndHandle;
+	sd.OutputWindow = (HWND)window;
 	sd.Windowed = TRUE;
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	sd.Flags = 0;
@@ -25,7 +25,14 @@ rpe::D3D11Renderer::D3D11Renderer(w32_window* window) : m_device(nullptr), m_swa
 
 void rpe::D3D11Renderer::SwapBuffers()
 {
-	m_swapChain->Present(1, 0);
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	ImGui::NewFrame();
+	ImGui::Begin("Test");
+	ImGui::End();
+	ImGui::Render();
+	m_swapChain->Present(0, 0);
 }
 
 rpe::D3D11Renderer::~D3D11Renderer()

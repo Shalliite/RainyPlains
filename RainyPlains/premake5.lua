@@ -1,5 +1,5 @@
 
-project "RainyPlains"
+project "rainyplains"
 
     filter "configurations:Debug"
     kind "ConsoleApp"
@@ -10,6 +10,6 @@ project "RainyPlains"
 
     files { "**.cpp", "**.hpp", "**.c", "**.h" }
 
-    links { "RPEngine" }
+    links { "d3d11.lib", "user32.lib" }
 
     

@@ -2,7 +2,7 @@
 workspace "RainyPlains"
     configurations {"Debug", "Release"}
     architecture "x86_64"
-    startproject "RainyPlains"
+    startproject "rainyplains"
     language "C++"
     cppdialect "C++17"
     staticruntime "on"
@@ -23,5 +23,4 @@ workspace "RainyPlains"
     defines { "WINDLL", "_WINDLL" }
     filter {}
 
-    include "RainyPlains"
-    include "RPEngine"
+    include "rainyplains"
