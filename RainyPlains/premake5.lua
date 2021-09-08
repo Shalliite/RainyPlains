@@ -10,6 +10,6 @@ project "rainyplains"
 
     files { "**.cpp", "**.hpp", "**.c", "**.h" }
 
-    links { "d3d11.lib", "user32.lib" }
+    links { "d3d11.lib", "user32.lib", "D3DCompiler.lib" }
 
     

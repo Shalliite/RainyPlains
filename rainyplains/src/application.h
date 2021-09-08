@@ -15,6 +15,8 @@ namespace rpe
 	public:
 		Application();
 		void Run();
+		void InitImGui();
+		void DestroyImGui();
 		virtual ~Application();
 	public:
 		bool m_shouldRun = false;

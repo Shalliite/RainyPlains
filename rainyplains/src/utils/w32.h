@@ -1,6 +1,6 @@
 #pragma once
 
-#if 1
+#if 0
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
 //#define NOSYSMETRICS
