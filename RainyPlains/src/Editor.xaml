@@ -1,0 +1,104 @@
+﻿<Window x:Class="RainyPlains.src.Editor"
+		  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		  xmlns:local="clr-namespace:RainyPlains.src"
+		  xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+		  xmlns:adc="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
+		  xmlns:adl="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
+		  xmlns:adt="clr-namespace:AvalonDock.Themes;assembly=AvalonDock.Themes.VS2013"
+		  mc:Ignorable="d"
+		  Title="Editor"
+		  Height="900"
+		  Width="1600"
+		  WindowStyle="None"
+		  StateChanged="Window_StateChanged"
+		  Background="#111">
+	<WindowChrome.WindowChrome>
+		<WindowChrome CaptionHeight="64"
+						  ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+	</WindowChrome.WindowChrome>
+	<Window.Resources>
+		<Style x:Key="WindowMainPanelStyle"
+				 TargetType="{x:Type Border}">
+			<Setter Property="BorderBrush"
+					  Value="{DynamicResource WindowBorderBrush}" />
+			<Setter Property="BorderThickness"
+					  Value="1" />
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}"
+								 Value="Maximized">
+					<Setter Property="BorderThickness"
+							  Value="0" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Resources>
+	<Border Style="{StaticResource WindowMainPanelStyle}">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="32" />
+				<RowDefinition Height="32" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<Grid Grid.Row="0">
+				<local:TitlebarButtons x:Name="titlebarButtons">
+				</local:TitlebarButtons>
+			</Grid>
+			<Grid Grid.Row="1">
+			</Grid>
+
+			<Grid Grid.Row="2"
+					Background="#222"
+					Margin="5, 0, 5, 5">
+				<ad:DockingManager x:Name="dockingManager">
+					<ad:DockingManager.Theme>
+						<adt:Vs2013DarkTheme/>
+					</ad:DockingManager.Theme>
+					<adl:LayoutRoot>
+						<adl:LayoutPanel>
+							<adl:LayoutAnchorablePaneGroup Orientation="Horizontal"
+																	 DockWidth="*">
+								<adl:LayoutAnchorablePane>
+									<adl:LayoutAnchorable>
+
+									</adl:LayoutAnchorable>
+								</adl:LayoutAnchorablePane>
+								
+							</adl:LayoutAnchorablePaneGroup>
+							<adl:LayoutAnchorablePaneGroup Orientation="Vertical"
+																	 DockWidth="2*">
+								<adl:LayoutAnchorablePane DockHeight="2*">
+									<adl:LayoutAnchorable x:Name="viewportWindow"
+																 Title="Viewport">
+										<local:Viewport>
+											
+										</local:Viewport>
+									</adl:LayoutAnchorable>
+								</adl:LayoutAnchorablePane>
+								<adl:LayoutAnchorablePane DockHeight="*">
+									<adl:LayoutAnchorable>
+
+									</adl:LayoutAnchorable>
+								</adl:LayoutAnchorablePane>
+
+							</adl:LayoutAnchorablePaneGroup>
+							<adl:LayoutAnchorablePaneGroup Orientation="Horizontal"
+																	 DockWidth="*">
+								<adl:LayoutAnchorablePane>
+									<adl:LayoutAnchorable>
+										<local:Properties>
+											
+										</local:Properties>
+									</adl:LayoutAnchorable>
+								</adl:LayoutAnchorablePane>
+
+							</adl:LayoutAnchorablePaneGroup>
+						</adl:LayoutPanel>
+					</adl:LayoutRoot>
+				</ad:DockingManager>
+			</Grid>
+		</Grid>
+	</Border>
+</Window>

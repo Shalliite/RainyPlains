@@ -1,15 +1,10 @@
+project "RainyPlains"
 
-project "rainyplains"
-
-    filter "configurations:Debug"
-    kind "ConsoleApp"
-
-    filter "configurations:Release"
+    language "C#"
     kind "WindowedApp"
-    filter {}
 
-    files { "**.cpp", "**.hpp", "**.c", "**.h" }
+    flags { "WPF" }
 
-    links { "d3d11.lib", "user32.lib", "D3DCompiler.lib" }
-
-    
+    files { "**.cs", "**.xaml" }
+    dependson { "RPEngine" }
+    links { "PresentationCore", "PresentationFramework", "System", "System.Xaml", "WindowsBase", "AvalonDock", "AvalonDock.Themes.Aero", "AvalonDock.Themes.Expression", "AvalonDock.Themes.Metro", "AvalonDock.Themes.VS2010", "AvalonDock.Themes.VS2013" }
