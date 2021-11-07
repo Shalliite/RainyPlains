@@ -1,0 +1,26 @@
+Game/Graphics Engine RainyPlains
+
+Debug
+~ Logging support
+~ Exception handling
+~ Logfiles
+Runtime
+~ Implement scripting
+~ Scenes
+~ Sound
+~ Compression/binary files
+~ File IO
+~ Mouse/Keyboard input
+Graphics
+~ D3D11/D3D12 OpenGL
+~ Mesh rendering
+~ Shader compiler
+Editor
+~ Interop with visual studio
+
+
+
+STEPS
+
+05/11/21
+Implement logging support and error handling for d3d11
