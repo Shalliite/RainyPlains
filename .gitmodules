@@ -1,3 +1,3 @@
-[submodule "external/AvalonDock"]
-	path = external/AvalonDock
-	url = https://github.com/Dirkster99/AvalonDock.git
+[submodule "RPEngine/external/spdlog"]
+	path = RPEngine/external/spdlog
+	url = https://github.com/gabime/spdlog.git
