@@ -1,9 +1,8 @@
 #pragma once
 
-#if 0
+#if 1
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
-//#define NOSYSMETRICS
 #define NOMENUS
 #define NOICONS
 #define NOSYSCOMMANDS

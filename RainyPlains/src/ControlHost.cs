@@ -10,7 +10,8 @@ namespace RainyPlains.src
 {
 	class ControlHost : HwndHost
 	{
-		public IntPtr m_hwndHost = IntPtr.Zero;
+		public Native_Wnd_WindowStruct m_nws;
+		public IntPtr m_renderer;
 		public int m_width = 0;
 		public int m_height = 0;
 		public ControlHost(double width, double height)
@@ -20,16 +21,14 @@ namespace RainyPlains.src
 		}
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
-			Native.CreateWnd(hwndParent.Handle, m_width, m_height);
-			Native.CreateD3D11();
-			m_hwndHost = Native.GetWindowHandle();
-			return new HandleRef(this, m_hwndHost);
+			m_nws = Native.Native_Wnd_CreateWindow(hwndParent.Handle);
+			m_renderer = Native.Native_Rend_GetNativeRenderer(m_nws.hostWindow);
+			return new HandleRef(this, m_nws.hostWindow);
 		}
 
 		protected override void DestroyWindowCore(HandleRef hwnd)
 		{
-			Native.DestroyWnd();
-			m_hwndHost = IntPtr.Zero;
+			Native.Native_Wnd_DestroyWindow(m_nws);
 		}
 	}
 }

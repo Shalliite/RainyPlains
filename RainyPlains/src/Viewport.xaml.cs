@@ -28,7 +28,8 @@ namespace RainyPlains.src
 			WM_SIZING = 0x0214,
 			WM_ENTERSIZEMOVE = 0x0231,
 			WM_EXITSIZEMOVE = 0x0232,
-			WM_SIZE = 0x0005
+			WM_SIZE = 0x0005,
+			WM_PAINT = 0x000F
 		}
 
 		public Viewport()
@@ -41,7 +42,31 @@ namespace RainyPlains.src
 		{
 			Loaded -= OnSurfaceLoaded;
 			controlHost = new ControlHost(ActualWidth, ActualHeight);
+			controlHost.MessageHook += new HwndSourceHook(MessageHandler);
 			Content = controlHost;
+		}
+
+		private IntPtr MessageHandler(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+		{
+			switch ((Win32Msg)msg)
+			{
+				case Win32Msg.WM_ENTERSIZEMOVE:
+					break;
+				case Win32Msg.WM_EXITSIZEMOVE:
+					break;
+				case Win32Msg.WM_SIZING:
+					break;
+				case Win32Msg.WM_PAINT:
+					Native.Native_Rend_ClearBuffer(controlHost.m_renderer, 255, 0, 0);
+					Native.Native_Rend_SwapBuffers(controlHost.m_renderer);
+					break;
+				case Win32Msg.WM_SIZE:
+					Native.Native_Rend_ResizeBuffer(controlHost.m_renderer, (ushort)ActualWidth, (ushort)ActualHeight);
+					break;
+				default:
+					break;
+			}
+			return IntPtr.Zero;
 		}
 
 		protected virtual void Dispose(bool disposing)
@@ -50,6 +75,7 @@ namespace RainyPlains.src
 			{
 				if (disposing)
 				{
+					Native.Native_Rend_DisposeRenderer(controlHost.m_renderer);
 					controlHost.Dispose();
 					// TODO: dispose managed state (managed objects)
 				}
@@ -72,11 +98,6 @@ namespace RainyPlains.src
 			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
 			Dispose(disposing: true);
 			GC.SuppressFinalize(this);
-		}
-
-		protected override void OnRender(DrawingContext drawingContext)
-		{
-			Native.RenderD3D11(ActualWidth, ActualHeight);
 		}
 	}
 }

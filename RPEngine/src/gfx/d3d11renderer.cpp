@@ -28,7 +28,7 @@ rpe::D3D11Renderer::D3D11Renderer(void* window) :
 	sd.Windowed = TRUE;
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	sd.Flags = 0;
-	D3D11CreateDeviceAndSwapChain(nullptr,
+	RP_HRESULT_CHECK(D3D11CreateDeviceAndSwapChain(nullptr,
 											D3D_DRIVER_TYPE_HARDWARE,
 											nullptr,
 											0,
@@ -39,7 +39,7 @@ rpe::D3D11Renderer::D3D11Renderer(void* window) :
 											&m_swapChain,
 											&m_device,
 											nullptr,
-		&m_context);
+		&m_context));
 
 	RP_HRESULT_CHECK(m_swapChain->GetBuffer(0, __uuidof(ID3D11Resource), &m_backBuffer));
 	RP_HRESULT_CHECK(m_device->CreateRenderTargetView(m_backBuffer.Get(), nullptr, &m_target));
@@ -47,12 +47,12 @@ rpe::D3D11Renderer::D3D11Renderer(void* window) :
 
 void rpe::D3D11Renderer::SwapBuffers()
 {
-	RP_HRESULT_CHECK(m_swapChain->Present(0, 0));
+	RP_HRESULT_CHECK(m_swapChain->Present(1, 0));
 }
 
-void rpe::D3D11Renderer::ClearBuffer(float red, float green, float blue)
+void rpe::D3D11Renderer::ClearBuffer(u8 red, u8 green, u8 blue)
 {
-	const float color[] = {red,green,blue,1.0f};
+	const float color[] = { red / 255, green / 255, blue / 255, 1.0f };
 	m_context->ClearRenderTargetView(m_target.Get(), color);
 }
 
@@ -62,7 +62,6 @@ rpe::D3D11Renderer::~D3D11Renderer()
 void rpe::D3D11Renderer::DrawTriangle(Vertex vert1, Vertex vert2, Vertex vert3)
 {
 	namespace wrl = Microsoft::WRL;
-	HRESULT hr;
 
 	const Vertex vertices[] =
 	{
@@ -80,7 +79,7 @@ void rpe::D3D11Renderer::DrawTriangle(Vertex vert1, Vertex vert2, Vertex vert3)
 	bd.StructureByteStride = sizeof(Vertex);
 	D3D11_SUBRESOURCE_DATA sd = {};
 	sd.pSysMem = vertices;
-	m_device->CreateBuffer(&bd, &sd, &pVertexBuffer);
+	RP_HRESULT_CHECK(m_device->CreateBuffer(&bd, &sd, &pVertexBuffer));
 	// Bind vertex buffer to pipeline
 	const UINT stride = sizeof(Vertex);
 	const UINT offset = 0u;
@@ -89,14 +88,14 @@ void rpe::D3D11Renderer::DrawTriangle(Vertex vert1, Vertex vert2, Vertex vert3)
 	// create pixel shader
 	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
 	wrl::ComPtr<ID3DBlob> pBlob;
-	D3DReadFileToBlob(L"PixelShader.cso", &pBlob);
-	m_device->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader);
+	RP_HRESULT_CHECK(D3DReadFileToBlob(L"PixelShader.cso", &pBlob));
+	RP_HRESULT_CHECK(m_device->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader));
 	// bind pixel shader
 	m_context->PSSetShader(pPixelShader.Get(), nullptr, 0u);
 	// create vertex shader
 	wrl::ComPtr<ID3D11VertexShader> pVertexShader;
-	D3DReadFileToBlob(L"VertexShader.cso", &pBlob);
-	m_device->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVertexShader);
+	RP_HRESULT_CHECK(D3DReadFileToBlob(L"VertexShader.cso", &pBlob));
+	RP_HRESULT_CHECK(m_device->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVertexShader));
 	// bind vertex shader
 	m_context->VSSetShader(pVertexShader.Get(), nullptr, 0u);
 
@@ -107,12 +106,12 @@ void rpe::D3D11Renderer::DrawTriangle(Vertex vert1, Vertex vert2, Vertex vert3)
 		{ "Position",0,DXGI_FORMAT_R32G32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
 		{ "Color",0,DXGI_FORMAT_R32G32B32_FLOAT,0,8u,D3D11_INPUT_PER_VERTEX_DATA,0 },
 	};
-	m_device->CreateInputLayout(
+	RP_HRESULT_CHECK(m_device->CreateInputLayout(
 		ied, (UINT)std::size(ied),
 		pBlob->GetBufferPointer(),
 		pBlob->GetBufferSize(),
 		&pInputLayout
-	);
+	));
 	// bind vertex layout
 	m_context->IASetInputLayout(pInputLayout.Get());
 	// bind render target
@@ -147,6 +146,6 @@ void rpe::D3D11Renderer::ResizeBuffer(u16 width, u16 height)
 	m_backBuffer.ReleaseAndGetAddressOf();
 	m_context->Flush();
 	RP_HRESULT_CHECK(m_swapChain->ResizeBuffers(1, m_width, m_height, DXGI_FORMAT_R8G8B8A8_UNORM, 0));
-	m_swapChain->GetBuffer(0, __uuidof(ID3D11Resource), &m_backBuffer);
-	m_device->CreateRenderTargetView(m_backBuffer.Get(), nullptr, &m_target);
+	RP_HRESULT_CHECK(m_swapChain->GetBuffer(0, __uuidof(ID3D11Resource), &m_backBuffer));
+	RP_HRESULT_CHECK(m_device->CreateRenderTargetView(m_backBuffer.Get(), nullptr, &m_target));
 }

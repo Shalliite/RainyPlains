@@ -7,17 +7,28 @@ using System.Runtime.InteropServices;
 
 namespace RainyPlains.src
 {
+	[StructLayout(LayoutKind.Sequential)]
+	public struct Native_Wnd_WindowStruct
+	{
+		public IntPtr hostWindow;
+		public IntPtr instanceHandle;
+		public IntPtr className;
+	}
 	class Native
 	{
 		[DllImport("RPEngine.dll")]
-		public static extern void CreateWnd(IntPtr hWnd, int width, int height);
+		public static extern Native_Wnd_WindowStruct Native_Wnd_CreateWindow(IntPtr parentWnd);
 		[DllImport("RPEngine.dll")]
-		public static extern void CreateD3D11();
+		public static extern void Native_Wnd_DestroyWindow(Native_Wnd_WindowStruct nws);
 		[DllImport("RPEngine.dll")]
-		public static extern void RenderD3D11(double width, double height);
+		public static extern IntPtr Native_Rend_GetNativeRenderer(IntPtr hostWnd);
 		[DllImport("RPEngine.dll")]
-		public static extern void DestroyWnd();
+		public static extern void Native_Rend_SwapBuffers(IntPtr renderer);
 		[DllImport("RPEngine.dll")]
-		public static extern IntPtr GetWindowHandle();
+		public static extern void Native_Rend_ClearBuffer(IntPtr renderer, byte colorR, byte colorG, byte colorB);
+		[DllImport("RPEngine.dll")]
+		public static extern void Native_Rend_ResizeBuffer(IntPtr renderer, ushort width, ushort height);
+		[DllImport("RPEngine.dll")]
+		public static extern void Native_Rend_DisposeRenderer(IntPtr renderer);
 	}
 }

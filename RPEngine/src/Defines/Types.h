@@ -13,4 +13,6 @@ namespace rpe
 	typedef std::uint16_t u16;
 	typedef std::uint32_t u32;
 	typedef std::uint64_t u64;
+
+	typedef void* ptr;
 }

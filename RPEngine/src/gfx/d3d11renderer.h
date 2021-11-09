@@ -28,7 +28,7 @@ namespace rpe
 		};
 		D3D11Renderer(void* window);
 		void SwapBuffers();
-		void ClearBuffer(float red, float green, float blue);
+		void ClearBuffer(u8 red, u8 green, u8 blue);
 		~D3D11Renderer();
 		void DrawTriangle(Vertex vert1, Vertex vert2, Vertex vert3);
 		void ResizeBuffer(u16 width, u16 height);

@@ -18,9 +18,16 @@ Graphics
 Editor
 ~ Interop with visual studio
 
+TODO
 
+Move Windows only stuff, like d3d to their own folder, abstract those away.
 
-STEPS
+LOGBOOK
 
 05/11/21
 Implement logging support and error handling for d3d11
+07/11/21
+Implemented minimal logging support for hresults with spdlog.
+08/11/21
+Beginning for implementing native to managed bridge for editor app. rend and wnd.
+
