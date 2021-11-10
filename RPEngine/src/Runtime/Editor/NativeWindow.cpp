@@ -58,5 +58,6 @@ namespace rpe
 	{
 		DestroyWindow((HWND)nws.hostWindow);
 		UnregisterClassA(nws.wndClass, (HINSTANCE)nws.instanceHandle);
+		
 	}
 }

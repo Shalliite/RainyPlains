@@ -21,6 +21,7 @@ Editor
 TODO
 
 Move Windows only stuff, like d3d to their own folder, abstract those away.
+Create for D3DDevice their own class
 
 LOGBOOK
 
@@ -30,4 +31,5 @@ Implement logging support and error handling for d3d11
 Implemented minimal logging support for hresults with spdlog.
 08/11/21
 Beginning for implementing native to managed bridge for editor app. rend and wnd.
-
+09/11/21
+Native_Wnd_WindowStruct test in editor app. Red background with clearbuffer. WndProc hook created in editor app for WM_SIZE, WM_PAINT messages.

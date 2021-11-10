@@ -1,3 +1,4 @@
+#pragma once
 
 /*
 * 
@@ -5,7 +6,6 @@
 * 
 */
 
-#pragma once
 
 /*
 * External headers
