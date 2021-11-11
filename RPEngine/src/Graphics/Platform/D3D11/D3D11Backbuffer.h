@@ -21,21 +21,19 @@
 //
 #include "../../../Defines/Defines.h"
 #include "../../../Utilities/Utilities.h"
-#include "D3D11RenderTargetView.h"
 //
 
 namespace rpe::gfx::api::dx
 {
-	class RPE_API D3D11DeviceContext
+	class RPE_API D3D11Backbuffer
 	{
 	public:
-		D3D11DeviceContext();
-		~D3D11DeviceContext();
-		void ClearTarget(u8 red, u8 green, u8 blue, D3D11RenderTargetView*);
+		D3D11Backbuffer();
+		~D3D11Backbuffer();
 	public:
-		ID3D11DeviceContext* Get() const;
-		ID3D11DeviceContext** GetAddress();
+		ID3D11Texture2D* Get() const;
+		ID3D11Texture2D** GetAddress();
 	private:
-		ID3D11DeviceContext* m_context;
+		ID3D11Texture2D* m_backbuffer;
 	};
 }

@@ -23,7 +23,7 @@
 namespace rpe::gfx::api::dx
 {
 
-	D3D11Device::D3D11Device(D3D11DeviceContext dc) :
+	D3D11Device::D3D11Device(D3D11DeviceContext* dc) :
 		m_device(nullptr)
 	{
 		RP_HRESULT_CHECK(D3D11CreateDevice(
@@ -36,7 +36,7 @@ namespace rpe::gfx::api::dx
 			D3D11_SDK_VERSION,
 			&m_device,
 			nullptr,
-			dc.GetAddress()));
+			dc->GetAddress()));
 	}
 
 	D3D11Device::~D3D11Device()
@@ -52,6 +52,11 @@ namespace rpe::gfx::api::dx
 	ID3D11Device** D3D11Device::GetAddress()
 	{
 		return &m_device;
+	}
+
+	void D3D11Device::CreateRenderTarget(D3D11RenderTargetView* rtv, D3D11Backbuffer* bbuf)
+	{
+		RP_HRESULT_CHECK(m_device->CreateRenderTargetView(bbuf->Get(), nullptr, rtv->GetAddress()));
 	}
 
 }

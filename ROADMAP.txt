@@ -22,6 +22,7 @@ TODO
 
 Move Windows only stuff, like d3d to their own folder, abstract those away.
 Create for D3DDevice their own class
+Continue abstraction of dxgi and d3d
 
 LOGBOOK
 
@@ -33,3 +34,5 @@ Implemented minimal logging support for hresults with spdlog.
 Beginning for implementing native to managed bridge for editor app. rend and wnd.
 09/11/21
 Native_Wnd_WindowStruct test in editor app. Red background with clearbuffer. WndProc hook created in editor app for WM_SIZE, WM_PAINT messages.
+10/11/21
+begin DXGI and D3D11 abstraction. Created SwapChain, Device, Context abstraction

@@ -11,7 +11,7 @@ namespace RainyPlains.src
 	class ControlHost : HwndHost
 	{
 		public Native_Wnd_WindowStruct m_nws;
-		public IntPtr m_renderer;
+		public Native_Rend_D3D11RendererStruct m_renderer;
 		public int m_width = 0;
 		public int m_height = 0;
 		public ControlHost(double width, double height)

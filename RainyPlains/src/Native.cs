@@ -14,6 +14,16 @@ namespace RainyPlains.src
 		public IntPtr instanceHandle;
 		public IntPtr className;
 	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct Native_Rend_D3D11RendererStruct
+	{
+		public IntPtr deviceContext;
+		public IntPtr device;
+		public IntPtr backBuffer;
+		public IntPtr renderTargetView;
+		public IntPtr swapChain;
+	}
 	class Native
 	{
 		[DllImport("RPEngine.dll")]
@@ -21,14 +31,14 @@ namespace RainyPlains.src
 		[DllImport("RPEngine.dll")]
 		public static extern void Native_Wnd_DestroyWindow(Native_Wnd_WindowStruct nws);
 		[DllImport("RPEngine.dll")]
-		public static extern IntPtr Native_Rend_GetNativeRenderer(IntPtr hostWnd);
+		public static extern Native_Rend_D3D11RendererStruct Native_Rend_GetNativeRenderer(IntPtr hostWnd);
 		[DllImport("RPEngine.dll")]
-		public static extern void Native_Rend_SwapBuffers(IntPtr renderer);
+		public static extern void Native_Rend_SwapBuffers(Native_Rend_D3D11RendererStruct renderer);
 		[DllImport("RPEngine.dll")]
-		public static extern void Native_Rend_ClearBuffer(IntPtr renderer, byte colorR, byte colorG, byte colorB);
+		public static extern void Native_Rend_ClearBuffer(Native_Rend_D3D11RendererStruct renderer, byte colorR, byte colorG, byte colorB);
 		[DllImport("RPEngine.dll")]
-		public static extern void Native_Rend_ResizeBuffer(IntPtr renderer, ushort width, ushort height);
+		public static extern void Native_Rend_ResizeBuffer(Native_Rend_D3D11RendererStruct renderer, ushort width, ushort height);
 		[DllImport("RPEngine.dll")]
-		public static extern void Native_Rend_DisposeRenderer(IntPtr renderer);
+		public static extern void Native_Rend_DisposeRenderer(Native_Rend_D3D11RendererStruct renderer);
 	}
 }
