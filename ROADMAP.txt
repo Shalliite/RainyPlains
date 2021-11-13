@@ -23,6 +23,8 @@ TODO
 Move Windows only stuff, like d3d to their own folder, abstract those away.
 Create for D3DDevice their own class
 Continue abstraction of dxgi and d3d
+Create triangle renderer for d3d with abstraction layers
+abstract shaders in classes
 
 LOGBOOK
 
@@ -36,3 +38,5 @@ Beginning for implementing native to managed bridge for editor app. rend and wnd
 Native_Wnd_WindowStruct test in editor app. Red background with clearbuffer. WndProc hook created in editor app for WM_SIZE, WM_PAINT messages.
 10/11/21
 begin DXGI and D3D11 abstraction. Created SwapChain, Device, Context abstraction
+11/11/21
+Continue abstraction of dxgi and d3d. Test of new d3d abstraction returns successful with rendering red background in editor app.

@@ -104,7 +104,7 @@ void rpe::D3D11Renderer::DrawTriangle(Vertex vert1, Vertex vert2, Vertex vert3)
 	const D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
 		{ "Position",0,DXGI_FORMAT_R32G32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
-		{ "Color",0,DXGI_FORMAT_R32G32B32_FLOAT,0,8u,D3D11_INPUT_PER_VERTEX_DATA,0 },
+		{ "Color",0,DXGI_FORMAT_R32G32B32_FLOAT,0,8,D3D11_INPUT_PER_VERTEX_DATA,0 },
 	};
 	RP_HRESULT_CHECK(m_device->CreateInputLayout(
 		ied, (UINT)std::size(ied),

@@ -24,7 +24,6 @@
 
 #include "../D3D/D3DDevice.h"
 #include "../D3D/D3DDeviceContext.h"
-#include "../D3D/D3DBackbuffer.h"
 #include "../D3D/D3DRenderTargetView.h"
 
 #include "../D3D/Types/ID3DDevice.h"
@@ -38,9 +37,8 @@ namespace rpe::gfx::api::dx
 	class RPE_API DXGISwapChain
 	{
 	public:
-		DXGISwapChain(D3DDevice*, ptr outputWnd, u16 width, u16 height);
-		void Resize(u16 width, u16 height, D3DDevice*, D3DBackbuffer*, D3DDeviceContext*, D3DRenderTargetView*);
-		void BindBackbuffer(D3DBackbuffer*);
+		DXGISwapChain(D3DDevice*, D3DRenderTargetView*, ptr outputWnd, u16 width, u16 height);
+		void Resize(u16 width, u16 height, D3DDevice*, D3DDeviceContext*, D3DRenderTargetView*);
 		void Swap();
 		~DXGISwapChain();
 	public:

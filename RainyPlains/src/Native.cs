@@ -20,9 +20,9 @@ namespace RainyPlains.src
 	{
 		public IntPtr deviceContext;
 		public IntPtr device;
-		public IntPtr backBuffer;
 		public IntPtr renderTargetView;
 		public IntPtr swapChain;
+		public IntPtr triangle;
 	}
 	class Native
 	{

@@ -23,7 +23,7 @@
 namespace rpe::gfx::api::dx
 {
 
-	DXGISwapChain::DXGISwapChain(D3DDevice* dev, ptr outputWnd, u16 width, u16 height) :
+	DXGISwapChain::DXGISwapChain(D3DDevice* dev, D3DRenderTargetView* rtv, ptr outputWnd, u16 width, u16 height) :
 		m_scd({}),
 		m_swapChain(nullptr),
 		m_dxgiFactory(nullptr),
@@ -56,6 +56,10 @@ namespace rpe::gfx::api::dx
 			dev->Get(),
 			&m_scd,
 			&m_swapChain));
+		ID3DTexture2D* bbuf = nullptr;
+		RP_HRESULT_CHECK(m_swapChain->GetBuffer(0, __uuidof(ID3DTexture2D), (void**)&bbuf));
+		RP_HRESULT_CHECK(dev->Get()->CreateRenderTargetView(bbuf, nullptr, rtv->GetAddress()));
+		bbuf->Release();
 	}
 
 	DXGISwapChain::~DXGISwapChain()
@@ -85,24 +89,21 @@ namespace rpe::gfx::api::dx
 		u16 width,
 		u16 height,
 		D3DDevice* dev,
-		D3DBackbuffer* bbuf,
 		D3DDeviceContext* dc,
 		D3DRenderTargetView* rtv)
 	{
-		ID3D11RenderTargetView* rtw = { };
-		dc->Get()->OMSetRenderTargets(1, &rtw, 0);
+		ID3DRenderTargetView* rtw = { };
+		rtv->Unbind();
 		rtv->Get()->Release();
-		bbuf->Get()->Release();
 		dc->Get()->Flush();
-		//
-		RP_HRESULT_CHECK(m_swapChain->ResizeBuffers(m_scd.BufferCount, width, height, m_scd.BufferDesc.Format, m_scd.Flags));
-		BindBackbuffer(bbuf);
-		dev->CreateRenderTarget(rtv, bbuf);
+		RP_HRESULT_CHECK(m_swapChain->ResizeBuffers(m_scd.BufferCount,
+													width,
+													height,
+													m_scd.BufferDesc.Format,
+													m_scd.Flags));
+		ID3DTexture2D* bbuf = nullptr;
+		RP_HRESULT_CHECK(m_swapChain->GetBuffer(0, __uuidof(ID3DTexture2D), (void**)&bbuf));
+		RP_HRESULT_CHECK(dev->Get()->CreateRenderTargetView(bbuf, nullptr, rtv->GetAddress()));
+		bbuf->Release();
 	}
-
-	void DXGISwapChain::BindBackbuffer(D3DBackbuffer* bbuf)
-	{
-		RP_HRESULT_CHECK(m_swapChain->GetBuffer(0, __uuidof(ID3DTexture2D), (void**)bbuf->GetAddress()));
-	}
-
 }

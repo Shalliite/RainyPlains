@@ -21,6 +21,7 @@
 #include "../../Defines/Defines.h"
 #include "../../Graphics/Platform/D3D11/D3D11Device.h"
 #include "../../Graphics/Platform/DXGI/DXGISwapChain.h"
+#include "../../Graphics/Renderer/D3DTriangleRenderer.h"
 //
 
 namespace rpe
@@ -29,40 +30,44 @@ namespace rpe
 	{
 		gfx::api::dx::D3D11DeviceContext* devCon;
 		gfx::api::dx::D3D11Device* device;
-		gfx::api::dx::D3D11Backbuffer* bbuf;
 		gfx::api::dx::D3D11RenderTargetView* rtv;
 		gfx::api::dx::DXGISwapChain* swapChain;
+		gfx::TriangleRenderer* tr;
 	};
 	RPE_EXTERN RPE_API Native_Rend_D3D11RendererStruct Native_Rend_GetNativeRenderer(ptr hostWindow)
 	{
 		using namespace gfx::api::dx;
 		D3D11DeviceContext* devCon = new D3D11DeviceContext();
 		D3D11Device* device = new D3D11Device(devCon);
-		D3D11Backbuffer* bbuf = new D3D11Backbuffer();
-		D3D11RenderTargetView* rtv = new D3D11RenderTargetView();
-		DXGISwapChain* swapChain = new DXGISwapChain(device, hostWindow, 0, 0);
-		swapChain->BindBackbuffer(bbuf);
-		device->CreateRenderTarget(rtv, bbuf);
-		return { devCon, device, bbuf, rtv, swapChain };
+		D3D11RenderTargetView* rtv = new D3D11RenderTargetView(device, devCon);
+		DXGISwapChain* swapChain = new DXGISwapChain(device, rtv, hostWindow, 0, 0);
+		gfx::TriangleRenderer* tr = new gfx::TriangleRenderer(device, devCon, rtv);
+		return { devCon, device, rtv, swapChain, tr};
 	}
 	RPE_EXTERN RPE_API void Native_Rend_SwapBuffers(Native_Rend_D3D11RendererStruct renderer)
 	{
 		renderer.swapChain->Swap();
 	}
-	RPE_EXTERN RPE_API void Native_Rend_ClearBuffer(Native_Rend_D3D11RendererStruct renderer, u8 colorR, u8 colorG, u8 colorB)
+	RPE_EXTERN RPE_API void Native_Rend_ClearBuffer(Native_Rend_D3D11RendererStruct renderer,
+													u8 colorR,
+													u8 colorG,
+													u8 colorB,
+													u16 width,
+													u16 height)
 	{
-		renderer.devCon->ClearTarget(colorR, colorG, colorB, renderer.rtv);
+		renderer.rtv->Clear(colorR, colorG, colorB);
+		renderer.tr->Draw(width, height, {-0.5f, -0.5f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.5f, 0.0f, 1.0f, 0.0f}, {0.5f, -0.5f, 0.0f, 0.0f, 1.0f});
 	}
 	RPE_EXTERN RPE_API void Native_Rend_ResizeBuffer(Native_Rend_D3D11RendererStruct renderer, u16 width, u16 height)
 	{
-		renderer.swapChain->Resize(width, height, renderer.device, renderer.bbuf, renderer.devCon, renderer.rtv);
+		renderer.swapChain->Resize(width, height, renderer.device, renderer.devCon, renderer.rtv);
 	}
 	RPE_EXTERN RPE_API void Native_Rend_DisposeRenderer(Native_Rend_D3D11RendererStruct renderer)
 	{
-		delete renderer.bbuf;
 		delete renderer.rtv;
 		delete renderer.swapChain;
 		delete renderer.devCon;
 		delete renderer.device;
+		delete renderer.tr;
 	}
 }

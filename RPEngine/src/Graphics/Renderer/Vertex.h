@@ -19,12 +19,15 @@
 * Internal headers
 */
 //
-#include "../../../Defines/Defines.h"
-#include "../../../Utilities/Utilities.h"
-#include "../D3D11/D3D11Backbuffer.h"
+#include "../../Defines/Defines.h"
+#include "../../Utilities/Utilities.h"
 //
 
-namespace rpe::gfx::api::dx
+namespace rpe::gfx
 {
-	typedef D3D11Backbuffer D3DBackbuffer;
+	struct RPE_API VertexXYRGBf
+	{
+		float x, y;
+		float r, g, b;
+	};
 }
